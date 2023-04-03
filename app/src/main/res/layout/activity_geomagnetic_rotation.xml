@@ -16,6 +16,7 @@
         <TextView
             android:id="@+id/tv_X"
             android:layout_width="wrap_content"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:text="X Coordinate:  " />
 
@@ -24,11 +25,12 @@
             android:layout_toEndOf="@+id/tv_X"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="X_Val" />
+            android:text="" />
 
         <TextView
             android:id="@+id/tv_Y"
             android:layout_below="@+id/tv_X"
+            android:textStyle="bold"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,11 +43,12 @@
             android:layout_toEndOf="@+id/tv_X"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Y_Val" />
+            android:text="" />
 
         <TextView
             android:id="@+id/tv_Z"
             android:layout_below="@+id/tv_Y"
+            android:textStyle="bold"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +61,7 @@
             android:layout_toEndOf="@+id/tv_Z"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Z_Val" />
+            android:text="" />
 
     </RelativeLayout>
 
