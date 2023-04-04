@@ -7,56 +7,89 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import kotlin.math.abs
 
-class GeomagneticRotation : AppCompatActivity(), SensorEventListener  {
+class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
 
-    private lateinit var tvXCoordinate: TextView
-    private lateinit var tvYCoordinate: TextView
-    private lateinit var tvZCoordinate: TextView
     private lateinit var sensorManager: SensorManager
-    private var rotationVectorSensor: Sensor? = null
-
-    private val filterFactor = 0.9f // Filter factor
-    private var smoothedRotationVector = FloatArray(4)
+    private lateinit var rotationVectorSensor: Sensor
+    private lateinit var targetOrientation: FloatArray
+    private lateinit var currentOrientation: FloatArray
+    private lateinit var tvDirections: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_geomagnetic_rotation)
+
+        // Initialize the sensor manager and rotation vector sensor
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
 
-        tvXCoordinate = findViewById(R.id.tv_X_val)
-        tvYCoordinate = findViewById(R.id.tv_Y_val)
-        tvZCoordinate = findViewById(R.id.tv_Z_val)
-    }
+        // Initialize the target orientation and current orientation arrays
+        targetOrientation = FloatArray(3)
+        currentOrientation = FloatArray(3)
 
-    override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.sensor?.type == Sensor.TYPE_ROTATION_VECTOR) {
-            // Apply low-pass filter to smooth the sensor data
-            smoothedRotationVector[0] += filterFactor * (event.values[0] - smoothedRotationVector[0])
-            smoothedRotationVector[1] += filterFactor * (event.values[1] - smoothedRotationVector[1])
-            smoothedRotationVector[2] += filterFactor * (event.values[2] - smoothedRotationVector[2])
-            smoothedRotationVector[3] += filterFactor * (event.values[3] - smoothedRotationVector[3])
+        // Initialize the button
+//        btnSetTarget = findViewById(R.id.btn_setTarget)
+        tvDirections = findViewById(R.id.tv_directions)
 
-            // Update the TextViews with the smoothed sensor data
-            tvXCoordinate.text = String.format("%.9f", smoothedRotationVector[0])
-            tvYCoordinate.text = String.format("%.9f", smoothedRotationVector[1])
-            tvZCoordinate.text = String.format("%.9f", smoothedRotationVector[2])
-        }
+//        // Set a click listener for the button
+//        btnSetTarget.setOnClickListener {
+//            // Set the current orientation as the target orientation
+//            targetOrientation = currentOrientation
+//            // Provide feedback to the user
+//            Toast.makeText(this, "Target orientation set!", Toast.LENGTH_SHORT).show()
+//        }
     }
 
     override fun onResume() {
         super.onResume()
-        rotationVectorSensor?.let {
-            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI)
-        }
+        sensorManager.registerListener(this, rotationVectorSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
+
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
     }
+
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // No-op
+        // Not used
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event?.sensor?.type == Sensor.TYPE_ROTATION_VECTOR) {
+            // Convert the rotation vector to a rotation matrix
+            val rotationMatrix = FloatArray(9)
+            SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
+
+            // Convert the rotation matrix to an orientation
+            val orientation = FloatArray(3)
+            SensorManager.getOrientation(rotationMatrix, orientation)
+
+            // Convert the orientation from radians to degrees
+            currentOrientation[0] = Math.toDegrees(orientation[0].toDouble()).toFloat()
+            currentOrientation[1] = Math.toDegrees(orientation[1].toDouble()).toFloat()
+            currentOrientation[2] = Math.toDegrees(orientation[2].toDouble()).toFloat()
+
+            // Calculate the difference between the current orientation and the target orientation
+            val diffX = abs(currentOrientation[0] - targetOrientation[0])
+            val diffY = abs(currentOrientation[1] - targetOrientation[1])
+            val diffZ = abs(currentOrientation[2] - targetOrientation[2])
+
+            // Provide feedback to the user about how much rotation is needed
+            val feedback = "To align with earth's frame of reference\n\nRotate $diffX degrees around the X-axis.\nRotate $diffY degrees around the Y-axis.\nRotate $diffZ degrees around the Z-axis."
+            tvDirections.text = feedback
+
+            // Check if the device is aligned with earth's frame of reference
+            if (diffX <= 1 && diffY <= 1 && diffZ <= 1) {
+                // Provide feedback to the user that the device is aligned
+                tvDirections.text = "Success! The device is now aligned with earth's frame of reference."
+                Toast.makeText(this, "Success! The device is now aligned with earth's frame of reference.", Toast.LENGTH_SHORT).show()
+                onPause()
+            }
+        }
     }
 }

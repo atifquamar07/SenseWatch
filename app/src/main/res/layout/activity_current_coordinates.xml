@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CurrentCoordinates">
+
+    <RelativeLayout
+        android:id="@+id/layout_coordinates"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_X"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="X Coordinate:  " />
+
+        <TextView
+            android:id="@+id/tv_X_val"
+            android:layout_toEndOf="@+id/tv_X"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/tv_Y"
+            android:layout_below="@+id/tv_X"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Y Coordinate:  " />
+
+        <TextView
+            android:id="@+id/tv_Y_val"
+            android:layout_below="@+id/tv_X"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/tv_X"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/tv_Z"
+            android:layout_below="@+id/tv_Y"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Z Coordinate:  " />
+
+        <TextView
+            android:id="@+id/tv_Z_val"
+            android:layout_below="@+id/tv_Y"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/tv_Z"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

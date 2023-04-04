@@ -8,12 +8,18 @@ import android.widget.Button
 class MainActivity : AppCompatActivity() {
 
     private lateinit var btnRotation: Button
+    private lateinit var btnAlignPhone: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btnRotation = findViewById(R.id.btn_rotation)
         btnRotation.setOnClickListener {
+            val intent = Intent(this, CurrentCoordinates::class.java)
+            startActivity(intent)
+        }
+        btnAlignPhone = findViewById(R.id.btn_alignPhone)
+        btnAlignPhone.setOnClickListener {
             val intent = Intent(this, GeomagneticRotation::class.java)
             startActivity(intent)
         }
