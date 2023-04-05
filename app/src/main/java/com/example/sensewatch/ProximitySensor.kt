@@ -45,9 +45,9 @@ class ProximitySensor : AppCompatActivity(), SensorEventListener {
             val distance = event.values[0]
             proximityValue.text = "Proximity Sensor Value: $distance"
             val data = ProximitySensorData(System.currentTimeMillis(), distance)
-//            if(light <= 2){
-//                Log.i("From Light Sensor", "Light is being obstructed by an object")
-//            }
+            if(distance <= 2){
+                Log.i("From Proximity Sensor", "An object is close to the device")
+            }
             CoroutineScope(Dispatchers.IO).launch {
                 proximitySensorDao.insert(data)
             }
