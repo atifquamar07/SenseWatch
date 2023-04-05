@@ -7,9 +7,13 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
@@ -19,18 +23,26 @@ class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
     private lateinit var targetOrientation: FloatArray
     private lateinit var currentOrientation: FloatArray
     private lateinit var tvDirections: TextView
+    private lateinit var magneticFieldValues: FloatArray
+    private lateinit var accelerometerValues: FloatArray
+    private lateinit var db: AppDatabase
+    private lateinit var geomagneticSensorDao: GeomagneticSensorDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_geomagnetic_rotation)
+        db = AppDatabase.getDatabase(applicationContext)
+        geomagneticSensorDao = db.geomagneticSensorDao()
 
         // Initialize the sensor manager and rotation vector sensor
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR)
 
         // Initialize the target orientation and current orientation arrays
         targetOrientation = FloatArray(3)
         currentOrientation = FloatArray(3)
+        magneticFieldValues = FloatArray(3)
+        accelerometerValues = FloatArray(3)
 
         // Initialize the button
 //        btnSetTarget = findViewById(R.id.btn_setTarget)
@@ -60,7 +72,7 @@ class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.sensor?.type == Sensor.TYPE_ROTATION_VECTOR) {
+        if (event?.sensor?.type == Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR) {
             // Convert the rotation vector to a rotation matrix
             val rotationMatrix = FloatArray(9)
             SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
@@ -74,6 +86,8 @@ class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
             currentOrientation[1] = Math.toDegrees(orientation[1].toDouble()).toFloat()
             currentOrientation[2] = Math.toDegrees(orientation[2].toDouble()).toFloat()
 
+            val data = GeomagneticSensorData(System.currentTimeMillis(), currentOrientation[0], currentOrientation[1], currentOrientation[2])
+
             // Calculate the difference between the current orientation and the target orientation
             val diffX = abs(currentOrientation[0] - targetOrientation[0])
             val diffY = abs(currentOrientation[1] - targetOrientation[1])
@@ -82,12 +96,16 @@ class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
             // Provide feedback to the user about how much rotation is needed
             val feedback = "To align with earth's frame of reference\n\nRotate $diffX degrees around the X-axis.\nRotate $diffY degrees around the Y-axis.\nRotate $diffZ degrees around the Z-axis."
             tvDirections.text = feedback
+            CoroutineScope(Dispatchers.IO).launch {
+                geomagneticSensorDao.insert(data)
+            }
 
             // Check if the device is aligned with earth's frame of reference
             if (diffX <= 1 && diffY <= 1 && diffZ <= 1) {
                 // Provide feedback to the user that the device is aligned
                 tvDirections.text = "Success! The device is now aligned with earth's frame of reference."
-                Toast.makeText(this, "Success! The device is now aligned with earth's frame of reference.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Aligned!", Toast.LENGTH_SHORT).show()
+                Log.i("Alignment Status", "Success! The device is now aligned with earth's frame of reference.")
                 onPause()
             }
         }

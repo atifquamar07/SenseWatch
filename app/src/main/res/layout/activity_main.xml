@@ -6,12 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="18dp"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:text="Click on the below options to perform your preferred activity." />
 
     <Button
         android:id="@+id/btn_rotation"
         android:layout_width="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:paddingVertical="10dp"
+        android:textSize="17sp"
+        android:paddingHorizontal="25dp"
         android:layout_height="wrap_content"
         android:text="Check Coordinates" />
 
@@ -20,8 +33,41 @@
         android:layout_width="wrap_content"
         android:layout_below="@+id/btn_rotation"
         android:layout_marginTop="20dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="33dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="17sp"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Align your Phone" />
+
+    <Button
+        android:id="@+id/btn_proxySensor"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/btn_alignPhone"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="30dp"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
-        android:text="Align your Phone" />
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        android:text="Proxymity Sensor" />
+
+    <Button
+        android:id="@+id/btn_lightSensor"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/btn_proxySensor"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="49dp"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textAllCaps="false"
+        android:text="Light Sensor" />
+
+
+
 
 </RelativeLayout>
