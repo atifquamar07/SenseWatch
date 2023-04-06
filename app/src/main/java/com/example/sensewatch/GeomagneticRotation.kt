@@ -91,27 +91,27 @@ class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR) {
-            // Convert the rotation vector to a rotation matrix
+            // Converting the rotation vector to a rotation matrix
             val rotationMatrix = FloatArray(9)
             SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
 
-            // Convert the rotation matrix to an orientation
+            // Converting the rotation matrix to an orientation
             val orientation = FloatArray(3)
             SensorManager.getOrientation(rotationMatrix, orientation)
 
-            // Convert the orientation from radians to degrees
+            // Converting the orientation from radians to degrees
             currentOrientation[0] = Math.toDegrees(orientation[0].toDouble()).toFloat()
             currentOrientation[1] = Math.toDegrees(orientation[1].toDouble()).toFloat()
             currentOrientation[2] = Math.toDegrees(orientation[2].toDouble()).toFloat()
 
             val data = GeomagneticSensorData(System.currentTimeMillis(), currentOrientation[0], currentOrientation[1], currentOrientation[2])
 
-            // Calculate the difference between the current orientation and the target orientation
-            val diffX = abs(currentOrientation[0] - targetOrientation[0])
-            val diffY = abs(currentOrientation[1] - targetOrientation[1])
-            val diffZ = abs(currentOrientation[2] - targetOrientation[2])
+            // Calculating the difference between the current orientation and the target orientation
+            val diffX = (currentOrientation[0] - targetOrientation[0])
+            val diffY = (currentOrientation[1] - targetOrientation[1])
+            val diffZ = (currentOrientation[2] - targetOrientation[2])
 
-            // Provide feedback to the user about how much rotation is needed
+            // Providing feedback to the user about how much rotation is needed
             val feedback = "To align with earth's frame of reference\n\nRotate $diffX degrees around the X-axis.\nRotate $diffY degrees around the Y-axis.\nRotate $diffZ degrees around the Z-axis."
             tvDirections.text = feedback
             CoroutineScope(Dispatchers.IO).launch {
@@ -119,7 +119,7 @@ class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
             }
 
             // Check if the device is aligned with earth's frame of reference
-            if (diffX <= 1 && diffY <= 1 && diffZ <= 1) {
+            if (diffX <= 1 && diffY <= 1 && diffZ <= 1 && diffX >= -1 && diffY >= -1 && diffZ >= -1) {
                 // Provide feedback to the user that the device is aligned
                 tvDirections.text = "Success! The device is now aligned with earth's frame of reference."
                 Toast.makeText(this, "Aligned!", Toast.LENGTH_SHORT).show()

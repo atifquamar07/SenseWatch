@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/tv_directions"
         android:layout_width="360dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="250dp"
         android:layout_centerHorizontal="true"
         android:textSize="21sp"
         android:layout_marginBottom="50dp"
@@ -18,11 +18,10 @@
 
     <Button
         android:id="@+id/btn_start_geomagnetic"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="420dp"
+        android:layout_width="300dp"
+        android:layout_marginTop="400dp"
         android:layout_centerHorizontal="true"
-        android:paddingHorizontal="40dp"
-        android:paddingVertical="10dp"
+        android:paddingVertical="15dp"
         android:backgroundTint="#FA0808"
         android:textSize="18sp"
         android:layout_height="wrap_content"

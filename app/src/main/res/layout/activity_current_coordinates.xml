@@ -18,14 +18,14 @@
             android:layout_width="wrap_content"
             android:textStyle="bold"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:textSize="22sp"
             android:text="X Coordinate:  " />
 
         <TextView
             android:id="@+id/tv_X_val"
             android:layout_toEndOf="@+id/tv_X"
             android:layout_width="wrap_content"
-            android:textSize="17sp"
+            android:textSize="22sp"
             android:layout_height="wrap_content"
             android:text="" />
 
@@ -34,7 +34,7 @@
             android:layout_below="@+id/tv_X"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
-            android:textSize="17sp"
+            android:textSize="22sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Y Coordinate:  " />
@@ -43,7 +43,7 @@
             android:id="@+id/tv_Y_val"
             android:layout_below="@+id/tv_X"
             android:layout_marginTop="10dp"
-            android:textSize="17sp"
+            android:textSize="22sp"
             android:layout_toEndOf="@+id/tv_X"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             android:layout_below="@+id/tv_Y"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
-            android:textSize="17sp"
+            android:textSize="22sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Z Coordinate:  " />
@@ -63,7 +63,7 @@
             android:id="@+id/tv_Z_val"
             android:layout_below="@+id/tv_Y"
             android:layout_marginTop="10dp"
-            android:textSize="17sp"
+            android:textSize="22sp"
             android:layout_toEndOf="@+id/tv_Z"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
