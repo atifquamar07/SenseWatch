@@ -13,30 +13,20 @@
         android:layout_marginTop="40dp"
         android:layout_marginStart="18dp"
         android:textSize="17sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/bold"
         android:text="Click on the below options to perform your preferred activity." />
 
-    <Button
-        android:id="@+id/btn_rotation"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="150dp"
-        android:layout_centerHorizontal="true"
-        android:textAllCaps="false"
-        android:paddingVertical="10dp"
-        android:textSize="17sp"
-        android:paddingHorizontal="25dp"
-        android:layout_height="wrap_content"
-        android:text="Check Coordinates" />
 
     <Button
         android:id="@+id/btn_alignPhone"
         android:layout_width="wrap_content"
-        android:layout_below="@+id/btn_rotation"
-        android:layout_marginTop="20dp"
-        android:paddingVertical="10dp"
+        android:layout_below="@+id/welcomeText"
+        android:layout_marginTop="100dp"
+        android:paddingVertical="13dp"
+        android:textSize="16sp"
+        android:backgroundTint="#CD4F15"
         android:paddingHorizontal="33dp"
         android:layout_centerHorizontal="true"
-        android:textSize="17sp"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:text="Align your Phone" />
@@ -46,12 +36,13 @@
         android:layout_width="wrap_content"
         android:layout_below="@+id/btn_alignPhone"
         android:layout_marginTop="20dp"
-        android:paddingVertical="10dp"
+        android:backgroundTint="#CD4F15"
+        android:paddingVertical="13dp"
+        android:textSize="16sp"
         android:paddingHorizontal="30dp"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
-        android:textSize="17sp"
         android:text="Proxymity Sensor" />
 
     <Button
@@ -60,14 +51,27 @@
         android:layout_below="@+id/btn_proxySensor"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:paddingVertical="10dp"
+        android:paddingVertical="13dp"
+        android:backgroundTint="#CD4F15"
+        android:textSize="16sp"
         android:paddingHorizontal="49dp"
         android:layout_height="wrap_content"
-        android:textSize="17sp"
         android:textAllCaps="false"
         android:text="Light Sensor" />
 
-
+    <Button
+        android:id="@+id/btn_rotation"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#CD4F15"
+        android:layout_below="@+id/btn_lightSensor"
+        android:textAllCaps="false"
+        android:paddingVertical="13dp"
+        android:textSize="16sp"
+        android:paddingHorizontal="25dp"
+        android:layout_height="wrap_content"
+        android:text="Check Coordinates" />
 
 
 </RelativeLayout>

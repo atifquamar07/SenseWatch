@@ -8,7 +8,10 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.facebook.stetho.Stetho
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +23,7 @@ class LightSensor : AppCompatActivity(), SensorEventListener {
     private lateinit var lightValue: TextView
     private lateinit var db: AppDatabase
     private lateinit var lightSensorDao: LightSensorDao
+    private lateinit var btnStart: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +35,27 @@ class LightSensor : AppCompatActivity(), SensorEventListener {
         lightSensorDao = db.lightSensorDao()
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
+        btnStart = findViewById(R.id.btn_start_light)
+
+        onPause()
+        var isStarted = true
+
+        btnStart.setOnClickListener {
+            if(!isStarted){
+                isStarted = true
+                lightValue.visibility = View.VISIBLE
+                onResume()
+                btnStart.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
+                btnStart.text = "Stop Sensor"
+            }
+            else {
+                isStarted = false
+                lightValue.visibility = View.GONE
+                btnStart.setBackgroundColor(ContextCompat.getColor(this, R.color.green))
+                onPause()
+                btnStart.text = "Start Sensor"
+            }
+        }
     }
 
     override fun onResume() {

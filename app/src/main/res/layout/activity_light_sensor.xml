@@ -12,7 +12,20 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Light Sensor Value: " />
+        android:layout_marginTop="300dp"
+        android:text="Light Sensor Value:  " />
+
+    <Button
+        android:id="@+id/btn_start_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="380dp"
+        android:layout_centerHorizontal="true"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="10dp"
+        android:backgroundTint="#FA0808"
+        android:fontFamily="@font/bold"
+        android:textSize="18sp"
+        android:text="Stop Sensor" />
 
 </RelativeLayout>

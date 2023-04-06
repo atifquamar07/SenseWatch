@@ -7,10 +7,13 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +30,7 @@ class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
     private lateinit var accelerometerValues: FloatArray
     private lateinit var db: AppDatabase
     private lateinit var geomagneticSensorDao: GeomagneticSensorDao
+    private lateinit var btnStart: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,17 +49,31 @@ class GeomagneticRotation : AppCompatActivity(), SensorEventListener {
         accelerometerValues = FloatArray(3)
 
         // Initialize the button
-//        btnSetTarget = findViewById(R.id.btn_setTarget)
+        btnStart = findViewById(R.id.btn_start_geomagnetic)
         tvDirections = findViewById(R.id.tv_directions)
 
-//        // Set a click listener for the button
-//        btnSetTarget.setOnClickListener {
-//            // Set the current orientation as the target orientation
-//            targetOrientation = currentOrientation
-//            // Provide feedback to the user
-//            Toast.makeText(this, "Target orientation set!", Toast.LENGTH_SHORT).show()
-//        }
+        onPause()
+        var isStarted = true
+
+        btnStart.setOnClickListener {
+            if(!isStarted){
+                isStarted = true
+                tvDirections.visibility = View.VISIBLE
+                onResume()
+                btnStart.text = "Stop Sensor"
+                btnStart.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
+            }
+            else {
+                isStarted = false
+                tvDirections.visibility = View.GONE
+                onPause()
+                btnStart.text = "Start Sensor"
+                btnStart.setBackgroundColor(ContextCompat.getColor(this, R.color.green))
+            }
+        }
+
     }
+
 
     override fun onResume() {
         super.onResume()

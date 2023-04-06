@@ -33,13 +33,13 @@ class CurrentCoordinates : AppCompatActivity(), SensorEventListener  {
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_ROTATION_VECTOR) {
-            // Apply low-pass filter to smooth the sensor data
+            // Applying low-pass filter to smooth the sensor data
             smoothedRotationVector[0] += filterFactor * (event.values[0] - smoothedRotationVector[0])
             smoothedRotationVector[1] += filterFactor * (event.values[1] - smoothedRotationVector[1])
             smoothedRotationVector[2] += filterFactor * (event.values[2] - smoothedRotationVector[2])
             smoothedRotationVector[3] += filterFactor * (event.values[3] - smoothedRotationVector[3])
 
-            // Update the TextViews with the smoothed sensor data
+            // Updating the TextViews with the smoothed sensor data
             tvXCoordinate.text = String.format("%.9f", smoothedRotationVector[0])
             tvYCoordinate.text = String.format("%.9f", smoothedRotationVector[1])
             tvZCoordinate.text = String.format("%.9f", smoothedRotationVector[2])
@@ -57,6 +57,6 @@ class CurrentCoordinates : AppCompatActivity(), SensorEventListener  {
         sensorManager.unregisterListener(this)
     }
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // No-op
+
     }
 }

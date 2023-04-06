@@ -28,7 +28,6 @@ data class GeomagneticSensorData(
     val YCoordinate: Float,
     val ZCoordinate: Float,
 )
-
 @Dao
 interface LightSensorDao {
     @Insert

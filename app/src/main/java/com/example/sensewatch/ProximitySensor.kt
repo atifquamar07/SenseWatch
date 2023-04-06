@@ -8,7 +8,10 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +22,7 @@ class ProximitySensor : AppCompatActivity(), SensorEventListener {
     private lateinit var proximityValue: TextView
     private lateinit var db: AppDatabase
     private lateinit var proximitySensorDao: ProximitySensorDao
+    private lateinit var btnStart: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +32,28 @@ class ProximitySensor : AppCompatActivity(), SensorEventListener {
         proximityValue = findViewById(R.id.tv_proximityText)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
+
+        btnStart = findViewById(R.id.btn_start_proximity)
+
+        onPause()
+        var isStarted = true
+
+        btnStart.setOnClickListener {
+            if(!isStarted){
+                isStarted = true
+                proximityValue.visibility = View.VISIBLE
+                onResume()
+                btnStart.text = "Stop Sensor"
+                btnStart.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
+            }
+            else {
+                isStarted = false
+                proximityValue.visibility = View.GONE
+                onPause()
+                btnStart.text = "Start Sensor"
+                btnStart.setBackgroundColor(ContextCompat.getColor(this, R.color.green))
+            }
+        }
     }
 
     override fun onResume() {
